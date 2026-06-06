@@ -118,7 +118,7 @@ def build_pdf(year: int, month: int, sales: List[Dict], orders: List[Dict]) -> b
     body = ParagraphStyle("body", parent=styles["Normal"], textColor=colors.HexColor("#1A1919"), fontSize=10, leading=13)
 
     story = []
-    story.append(Paragraph("Maison · Glow", title_style))
+    story.append(Paragraph("Doctor·VITA", title_style))
     story.append(Paragraph(f"OYLIK HISOBOT  ·  {year} - {month:02d}", sub_style))
 
     sales_rev = sum(s.get("total", 0) for s in sales)

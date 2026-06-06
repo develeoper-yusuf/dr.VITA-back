@@ -849,6 +849,44 @@ async def delete_worker(wid: str, user=Depends(require_roles("director"))):
     return {"ok": True}
 
 
+class UpdateWorker(BaseModel):
+    name: Optional[str] = None
+    surname: Optional[str] = None
+    phone: Optional[str] = None
+    email: Optional[EmailStr] = None
+    password: Optional[str] = None
+
+
+@api.put("/users/workers/{wid}")
+@api.patch("/users/workers/{wid}")
+async def update_worker(wid: str, data: UpdateWorker, user=Depends(require_roles("director"))):
+    worker = await db.users.find_one({"id": wid, "role": "worker"})
+    if not worker:
+        raise HTTPException(404, "Ishchi topilmadi")
+    update = {}
+    if data.name is not None:
+        update["name"] = data.name
+    if data.surname is not None:
+        update["surname"] = data.surname
+    if data.phone is not None:
+        update["phone"] = data.phone
+    if data.email is not None:
+        new_email = data.email.lower()
+        existing = await db.users.find_one({"email": new_email, "id": {"$ne": wid}})
+        if existing:
+            raise HTTPException(400, "Bu email allaqachon mavjud")
+        update["email"] = new_email
+    if data.password is not None and data.password.strip():
+        if len(data.password) < 6:
+            raise HTTPException(400, "Parol kamida 6 ta belgidan iborat bo'lishi kerak")
+        update["password_hash"] = hash_password(data.password)
+    if not update:
+        raise HTTPException(400, "Hech qanday o'zgartirish yo'q")
+    await db.users.update_one({"id": wid}, {"$set": update})
+    updated = await db.users.find_one({"id": wid}, {"_id": 0, "password_hash": 0})
+    return updated
+
+
 # ---------- Questions ----------
 @api.post("/questions")
 async def submit_question(data: QuestionIn):

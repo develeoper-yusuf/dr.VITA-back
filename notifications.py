@@ -76,7 +76,7 @@ def _wrap_html(title: str, message: str, footer: str = "Maison Glow CRM") -> str
   <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px">
     <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border:1px solid #E5E1D8;border-radius:14px;overflow:hidden">
       <tr><td style="background:#2A1114;padding:18px 24px;color:#FAFAF7">
-        <div style="font-family:Georgia,serif;font-size:22px;letter-spacing:-0.01em">Maison<span style="color:#9C433E">·</span>Glow</div>
+        <div style="font-family:Georgia,serif;font-size:22px;letter-spacing:-0.01em">Doctor<span style="color:#9C433E">·</span>VITA</div>
       </td></tr>
       <tr><td style="padding:28px 24px">
         <h2 style="font-family:Georgia,serif;color:#2A1114;margin:0 0 12px 0;font-size:22px">{title}</h2>
